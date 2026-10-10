@@ -565,13 +565,12 @@
     btn.textContent = "Uploading…";
     var ext = resultMime.indexOf("jpeg") > -1 || resultMime.indexOf("jpg") > -1 ? "jpg" : "png";
     var form = new FormData();
-    form.append("reqtype", "fileupload");
-    form.append("fileToUpload", dataUrlToBlob(resultDataUrl), "miladys-tryon." + ext);
+    form.append("file", dataUrlToBlob(resultDataUrl), "miladys-tryon." + ext);
 
-    fetch("https://catbox.moe/user/api.php", { method: "POST", body: form })
-      .then(function(res){ return res.text(); })
-      .then(function(link){
-        link = (link || "").trim();
+    fetch("https://tmpfiles.org/api/v1/upload", { method: "POST", body: form })
+      .then(function(res){ return res.json(); })
+      .then(function(j){
+        var link = (j && j.data && j.data.url) ? String(j.data.url) : "";
         btn.disabled = false;
         btn.textContent = "Get on my phone";
         if(link.indexOf("http") !== 0){ throw new Error("bad link"); }
