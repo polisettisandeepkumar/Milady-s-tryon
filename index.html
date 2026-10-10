@@ -298,7 +298,8 @@
   function currentDrape(){ return STYLES[selectedStyle].drape; }
   function buildPrompt(){
     return "Show this woman wearing the saree she is holding in her hands. " + currentDrape() +
-      " preserving the saree's exact colors, border design and motifs. She wears a matching blouse with full sleeves till the elbow. Photorealistic, keep her exact same face, pose and background.";
+      " Follow this drape description exactly - it is the most important instruction. Do not substitute a different or generic drape." +
+      " Preserve the saree's exact colors, border design and motifs. She wears a matching blouse with full sleeves till the elbow. Photorealistic, keep her exact same face, pose and background.";
   }
 
   var screens = {
