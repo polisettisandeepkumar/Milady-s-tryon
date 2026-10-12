@@ -264,6 +264,7 @@
     <img id="resultImg" alt="Your try-on image">
     <div style="margin-top:24px">
       <button class="btn btn-gold" id="getOnPhoneBtn">Get on my phone</button>
+      <button class="btn btn-gold" id="downloadBtn">Download</button>
       <button class="btn btn-blush" id="tryAnotherBtn">Try Another</button>
     </div>
 
@@ -598,6 +599,17 @@
     document.getElementById("qrPanel").classList.remove("show");
     document.getElementById("qrFallback").style.display = "none";
   }
+
+  document.getElementById("downloadBtn").addEventListener("click", function(){
+    if(!resultDataUrl) return;
+    var ext = resultMime.indexOf("jpeg") > -1 || resultMime.indexOf("jpg") > -1 ? "jpg" : "png";
+    var a = document.createElement("a");
+    a.href = resultDataUrl;
+    a.download = "miladys-tryon." + ext;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
 
   document.getElementById("tryAnotherBtn").addEventListener("click", function(){
     resetSession();
