@@ -602,13 +602,23 @@
 
   document.getElementById("downloadBtn").addEventListener("click", function(){
     if(!resultDataUrl) return;
-    var ext = resultMime.indexOf("jpeg") > -1 || resultMime.indexOf("jpg") > -1 ? "jpg" : "png";
-    var a = document.createElement("a");
-    a.href = resultDataUrl;
-    a.download = "miladys-tryon." + ext;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    /* Convert to JPEG on download: smaller file, faster to share. */
+    var img = new Image();
+    img.onload = function(){
+      var c = document.createElement("canvas");
+      c.width = img.width; c.height = img.height;
+      var ctx = c.getContext("2d");
+      ctx.fillStyle = "#ffffff"; /* JPEG has no transparency */
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0);
+      var a = document.createElement("a");
+      a.href = c.toDataURL("image/jpeg", 0.92);
+      a.download = "miladys-tryon.jpg";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    };
+    img.src = resultDataUrl;
   });
 
   document.getElementById("tryAnotherBtn").addEventListener("click", function(){
